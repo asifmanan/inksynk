@@ -1,0 +1,44 @@
+{% extends 'adminapp/admin_category_base.html' %}
+{% load cmsClassTags %}
+{% block windowtitle %}
+Categories
+{% endblock windowtitle %}
+
+  {% block appview %}
+    {% if category_list %}
+      <div class="p-2 flex flex-col space-y-1">
+        {% for category in category_list %}
+          <div class="flex flex-row bg-stone-100 rounded">
+            <div class="w-1/3 py-4 px-6">
+            
+              <div class="font-bold text-gray-900">{{category.title}}</div>
+              <div class="text-gray-500 mt-2 text-xs"><span class="text-blue-600 font-bold">                
+                {% with postcount=category.postcategory|catUserPostCount:user %}
+                  {{ postcount }} post{{ postcount|pluralize }}
+                {% endwith %} 
+                </span>
+              </div>
+            </div>
+            <div class="w-1/3 py-4 px-6">
+              <div class="">{{category.description}}</div>
+              <div class="text-gray-500 mt-2 text-xs">Created on <span class="text-blue-600 font-bold">{{category.created_on|date:'d M, Y'}}</span>
+              by <span class="text-blue-600 font-bold">{{category.author}}</span>
+              </div>
+            </div>
+            <div class="w-1/3 py-4 px-6">
+              <div class="flex flex-row gap-2 text-sm">
+                <a href={% url 'adminapp:editcategory' category.slug %} class="ml-auto text-blue-600 underline">Edit</a>
+                <a href="{% url 'adminapp:deletecategory' category.slug %}" class="text-red-600 underline">Delete</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+    <div class="text-center my-12">
+      <h2 class="text-2xl">Opps!</h2>
+      <p class="">No categories created...</p>
+    </div>
+    {% endif %}
+
+  {% endblock appview %}

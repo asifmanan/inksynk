@@ -1,0 +1,85 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block windowtitle %}
+    <title>Approval | List</title>
+{% endblock windowtitle %}
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col my-4">
+            <h1>Post Approvals</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if publishedpost_list%}
+            <div class="p-2 shadow-sm" style="background-color: #ffffff;">    
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Publish Date</th>
+                                <th>Category</th>
+                                <th>Approval</th>
+                                <th>Approver</th>
+                                <th>Archived</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for publishedpost in publishedpost_list %}
+                            <tr>
+                                <td>{{publishedpost.post.title}}</td>
+                                <td>{{publishedpost.post.author}}</td>
+                                <td>{{publishedpost.published_on|date:'M d, Y'}}</td>
+                                <td>{{publishedpost.postcategory}}</td>
+                                {% if publishedpost.approval == "APPROVED" %}
+                                    <td class="text-success">Approved</td>
+                                {% elif publishedpost.approval == "PENDING" %}
+                                    <td class="text-warning">Pending</td>
+                                {% elif publishedpost.approval == "DISAPPROVED" %}
+                                    <td class="text-danger">Rejected</td>
+                                {% endif %}
+                                {% if publishedpost.approver %}
+                                    <td>{{publishedpost.approver}}</td>
+                                {% else %}
+                                    <td> - </td>
+                                {% endif %}
+                                {% if publishedpost.is_archived %}
+                                    <td>Yes</td>
+                                {% else %}
+                                    <td>No</td>
+                                {% endif %}
+                                <td>
+                                {% if publishedpost.approval == "PENDING" %}
+                                    <a href={% url 'postapp:postapproval' publishedpost.pk %} class="btn btn-primary btn-sm">Verify</a>
+                                {% elif publishedpost.approval == "APPROVED" %}
+                                    <a href={% url 'postapp:postapproval' publishedpost.pk %} class="btn btn-warning btn-sm">Review</a>
+                                {% else %}
+                                    <a href={% url 'postapp:postapproval' publishedpost.pk %} class="btn btn-warning btn-sm">Review</a>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <div class="p-3 shadow-sm h-100" style="background-color: #ffffff;">
+                <p class="fs-2 text-muted fw-light">Whoops! You need to write and publish few posts ...</p>
+                <p class="fs-2 text-muted fw-light">Your published posts will appear here once you start publishing</p>
+            </div>
+            {% endif %}
+            
+        </div>
+    </div>
+</div>
+
+{% endblock pagecontent %}
+
+{% block page_scripts %}
+    <script type="text/javascript" src={% static 'postapp\js\list_published_posts.js' %}></script>
+{% endblock page_scripts %}

@@ -1,0 +1,54 @@
+{% extends 'classapp/categories_base.html' %}
+{% load cmsClassTags %}
+{% block windowtitle %}
+Tags
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+    Tags
+  {% endblock apptitle %}
+
+  {% block appview %}
+
+  {% if tag_list %}
+  <table class="w-full text-sm text-left text-gray-500">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+      <tr>
+        <th scope="col" class="py-3 px-6">Title</th>
+        <th scope="col" class="py-3 px-6">Parent</th>
+        <th scope="col" class="py-3 px-6">Description</th>
+        <th scope="col" class="py-3 px-6">My Contribution</th>
+        <th scope="col" class="py-3 px-6">Created by</th>
+      </tr>
+    </thead>
+    <tbody class="">
+      {% for tag in tag_list %}
+      <tr class="bg-white border-b">
+        <th scope="row" class="py-4 px-6 font-medium text-gray-900">
+          {{tag.title}}</th>
+        <td class="py-4 px-6">
+          {% if tag.parentlist %}
+          {{tag.parentlist}}
+          {% else %}
+          Root
+          {% endif %}
+        </td>
+        <td class="py-4 px-6">{{tag.description}}</td>
+        <td class="py-4 px-6">
+          {% with postcount=tag.posttag|tagUserPostCount:user %}
+            {{ postcount }} post{{ postcount|pluralize }}
+          {% endwith %} 
+        </td>
+        <td class="py-4 px-6">{{tag.author}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="text-center my-12">
+    <p class="text-2xl">Whoops! You don't have any Tags!</p>
+    <p class="">Your categories will appear here once you start publishing posts</p>
+  </div>
+  {% endif %}
+  
+  {% endblock appview %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cmsAdminTags %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{% static 'cmsapp/css/style.css'%}"/>
+  <title>
+    {% block windowtitle %}
+
+    {% endblock windowtitle %}
+  </title>
+</head>
+<body>
+	<div id="wrapper" class="h-screen flex w-full">
+    <div id="sidebar-wrapper" class="p-1">
+      <div class="bg-teal-900 h-full rounded-md flex flex-col">
+        <ul class="sidebar-nav space-y-2 pt-4">
+          {% if user.is_superuser or user|is_member:'administrators' %}
+          <li class="px-2"><a href={% url 'adminapp:listapprovedpost' %} class="cms-sidebar-link">Administration</a></li>
+          {% endif %}
+          <li class="px-2"><a href={% url 'postapp:draftposts' %} class="cms-sidebar-link">Posts</a></li>
+          <li class="px-2"><a href={% url 'commentapp:usercommentlist' 'all' %} class="cms-sidebar-link">Comments</a></li>
+          <li class="px-2"><a href={% url 'classapp:categoriesmanager' %} class="cms-sidebar-link">Collections</a></li>
+          
+        </ul>
+        <ul class="sidebar-nav mt-auto">
+          <li class="bg-slate-800 rounded-b-md">
+            <div class="relative m-2">
+              <div id="id_useraccount-menu" class="hidden w-full p-2 absolute bottom-0 space-y-2 rounded text-sm text-white bg-neutral-800">
+                <a class="block p-2 rounded hover:bg-neutral-600" href="{% url 'userapp:userprofile' user.username %}">Profile</a>
+                <a class="block p-2 rounded hover:bg-neutral-600" href="{% url 'userapp:logout' %}">Logout</a>
+              </div>
+            </div>
+            <div id="id_useraccount-menu-trigger" class="p-2 space-x-2 cursor-pointer flex flex-row rounded-b-md text-sm text-white">
+              <img class="rounded-full w-10" src={% static 'userapp/pictures/blank-profile-picture.png' %}>
+              <div class="self-center">{{user.username}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+		<div class="page-content-wrapper grow">
+			<div class="mx-1 py-1 h-full">
+        {% block pagecontent %}
+        
+        {% endblock pagecontent %}
+      </div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{% static 'cmsapp\js\sidebar_menu.js'%}"></script>
+  <script>
+    
+    $("#id_useraccount-menu-trigger").click(function(){
+      $("#id_useraccount-menu").toggleClass("hidden");
+    });
+  </script>
+  {% block pagescripts %}
+  
+  {% endblock pagescripts %}
+</body>
+</html>

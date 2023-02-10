@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html' %}
+{% block windowtitle %}
+    <title>Publish Post</title>
+{% endblock windowtitle %}
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class = "my-4">
+                <h2>Publish Post</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mt-2">
+            <div class="col col-12 col-md-8 col-lg-9 order-md-0 order-1">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-canvas p-4 shadow-sm">
+                        <div class="">
+                            <label class="form-label fw-semibold" for={{form.post_category.id_for_label}}>Post Category (Required)</label>
+                            <select class="form-select" name={{form.post_category.html_name}} id='{{form.post_category.auto_id}}' {% if post_form.title.field.required %}required{% endif %}>
+                                {% for cat_val,cat_name in form.post_category.field.choices  %}
+                                    <option 
+                                        {% if form.post_category.value == cat_val %} 
+                                            selected="selected" 
+                                        {% endif %} 
+                                            value={{cat_val}}>{{cat_name}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            </div>
+                        <div class="mt-4">
+                            <label class="form-label fw-semibold" for={{form.post_tags.id_for_label}}>Post Tags (At Least 1)</label>
+                            {{form.post_tags}}
+                        </div>
+                    </div>
+                    
+                    <div class="my-4">
+                        <button class="btn py-3 px-4 btn-success" type="submit">Publish Post</button>
+                    </div>
+                </form>
+            </div> 
+            <div class="col col-12 col-md-4 col-lg-3 mb-3 order-md-1 order-0">
+                <div>
+                    <div class="p-2 notes-heading">
+                        <h5 style="margin: 0;">Step 2</h5>
+                    </div>
+                    <hr style="margin: 0px;" />
+                    <div class="px-2 py-4 notes-body">
+                        <ol>
+                            <li>Select Category (Required)</li>
+                            <li>Choose relevant tags for the post (At least one is required)</li>
+                            <li>Click &quot;Publish&quot; to publish the post</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock pagecontent %}
+{% block page_scripts %}
+
+{% endblock page_scripts %}

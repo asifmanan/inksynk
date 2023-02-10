@@ -1,0 +1,45 @@
+{% extends 'adminapp/admin_category_base.html' %}
+{% block windowtitle %}
+  New Category
+{% endblock windowtitle %}
+
+{% block appview %}
+  <div class="p-4">
+    <form method="POST">{% csrf_token %}
+      <div class="lg:max-w-[300px] space-y-4">
+        
+        <div> 
+          <label id="{{form.parent.id_for_label}}" class="block text-xs font-bold uppercase text-gray-700">Parent</label>
+          <select class="bg-white p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif text-md" name={{form.parent.html_name}} id='{{form.parent.auto_id}}' {% if form.parent.field.required %}required{% endif %}>
+            {% for cat_val,cat_name in form.parent.field.choices  %}
+              {% if cat_val != object.pk %}
+              <option 
+                {% if form.parent.value == cat_val %} 
+                    selected="selected" 
+                {% endif %} 
+                    value={{cat_val}}>{{cat_name}}
+              </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>  
+          <label id="{{form.title.id_for_label}}" class="block text-xs font-bold uppercase text-gray-700">Category Title</label>
+          <input class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif text-md" id="{{form.title.auto_id}}" name={{form.title.html_name}} maxlength={{form.title.field.max_length}} {% if form.title.field.required %}required{% endif %} value="{% if form.title.value %}{{form.title.value}}{% endif %}" type="text"/>
+        </div>
+        
+        <div>  
+          <label id="{{form.description.id_for_label}}" class="block text-xs font-bold uppercase text-gray-700">Description</label>
+          <input class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif text-md" id="{{form.description.auto_id}}" name={{form.description.html_name}} maxlength={{form.description.field.max_length}} {% if form.description.field.required %}required{% endif %} value="{% if form.description.value %}{{form.description.value}}{% endif %}" type="text"/>
+        </div>
+        
+        <div>  
+          <button class="px-4 py-2 rounded border bg-teal-700 font-bold text-white uppercase text-sm 
+          hover:bg-teal-600" type="submit">Submit</button>          
+        </div>
+        
+      </div>
+    </form>
+  </div>
+{% endblock appview %}

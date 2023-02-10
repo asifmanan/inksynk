@@ -1,0 +1,65 @@
+{% extends 'userapp/userapp_base.html' %}
+{% load static %}
+
+  {% block windowtitle %}
+    User Profile
+  {% endblock windowtitle %}
+
+  {% block apptitle %}
+    User Profile
+  {% endblock apptitle %}
+
+  {% block appview %}
+  <div class="flex flex-col md:flex-row p-4 gap-4 text-sm">
+    <div>
+      <img class="w-[150px] h-[150px] rounded-full mx-auto md:mx-0" src= {% static 'userapp/pictures/blank-profile-picture.png' %}/>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <p class="font-bold">First Name</p>
+        <p>{{userprofile.user.first_name}}</p>
+      </div>
+      <div class="">
+          <p class="font-bold">Last Name</p>
+          <p>{{userprofile.user.last_name}}</p>
+      </div>
+      <div class="">
+          <p class="font-bold">Username</p>
+          <p class="character-br">{{userprofile.user.username}}</p>
+      </div>
+      <div class="">
+          <p class="font-bold">email address</p>
+          <p>{{userprofile.user.email}}</p>
+      </div>
+      <div class="">
+          <p class="font-bold">Gender</p>
+          <p class="character-br lowercase">{{userprofile.gender}}</p>
+      </div>
+      <div class="">
+          <p class="font-bold">Display Name</p>
+          {% if userprofile.display_name %}    
+              <p>{{userprofile.display_name}}</p>
+          {% else %}
+              <p>Not Set</p>
+          {% endif %}
+      </div>
+      <div class="col-span-2">
+          <p class="font-bold">Brief Intro</p>
+          {% if userprofile.brief_intro %}
+              <p class="text-wrap">{{userprofile.brief_intro}}</p>
+          {% else %}
+              <p>No Intro</p>
+          {% endif %}
+      </div>
+      {% if user == userprofile.user %}
+      <div class="col-span-2 mt-2">
+        <div class="flex flex-row gap-2">
+          <a class="text-blue-600 underline" href="#">Edit Profile</a>
+          <a class="text-blue-600 underline" href="#">Change Password</a></div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+  
+  {% endblock appview %}

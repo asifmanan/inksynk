@@ -1,0 +1,63 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+Published Posts
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+  Published Posts
+  {% endblock apptitle %}
+
+  {% block appview %}
+  <div class="overflow-x-auto relative border border-stone-200">
+    {% if publishedpost_list %}
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="py-3 px-6 min-w-[200px]">Title</th>
+          <th scope="col" class="py-3 px-6">Publish Date</th>
+          <th scope="col" class="py-3 px-6">Category</th>
+          <th scope="col" class="py-3 px-6">Approval</th>
+          <th scope="col" class="py-3 px-6">Approver</th>
+          <th scope="col" class="py-3 px-6">Action</th>
+        </tr>
+      </thead>
+      <tbody class="">
+        {% for ppost in publishedpost_list %}
+        <tr class="bg-white border-b">
+          <th scope="row" class="py-4 px-6 font-medium text-gray-900">
+            {{ppost.post.title}}</th>
+          <td class="py-4 px-6">{{ppost.published_on|date:'d M, Y'}}</td>
+          <td class="py-4 px-6">{{ppost.postcategory.category.title}}</td>
+          {% if ppost.approval == "APPROVED" %}
+            <td class="text-green-700 py-4 px-6">Approved</td>
+          {% elif ppost.approval == "PENDING" %}
+            <td class="text-amber-500 py-4 px-6">Pending</td>
+          {% elif ppost.approval == "DISAPPROVED" %}
+            <td class="text-red-700 py-4 px-6">Rejected</td>
+          {% endif %}
+          {% if ppost.approver %}
+            <td class="py-4 px-6">
+              {{ppost.approver}}</td>
+          {% else %}
+            <td class="py-4 px-6"> - </td>
+          {% endif %}
+          <td class="py-4 px-6">
+            <a href={% url 'postapp:publishedpost' ppost.pk %} class="text-blue-700 hover:underline">View</a>
+            {% if ppost.approval != "APPROVED" %}
+              | <a href={% url 'postapp:unpublishpost' ppost.pk %} class="text-red-700 hover:underline">Unpublish</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="text-center my-12">
+      <h2 class="text-2xl">No Published posts</h2>
+      <p class="">Your published posts will appear here once you start publishing</p>
+    </div>
+    {% endif %}
+  </div>
+  {% endblock appview %}

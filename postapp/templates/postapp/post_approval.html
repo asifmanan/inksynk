@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block windowtitle %}
+    <title>Post Approval</title>
+{% endblock windowtitle %}
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class = "my-4">
+                <h1>Post Approval</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mt-2">
+            <div class="col col-12 col-md-8 col-lg-9 order-md-0 order-1">
+                <div class="p-2 shadow-sm" style="background-color: #ffffff;">
+                    <div class="p-2 px-md-4">
+                        <h2>{{ppost.post.title}}<h2>    
+                    </div>
+                    {% if ppost.post.summary %}
+                    <div class="py-1 px-2 px-md-4">
+                        <p class="text-muted">{{ppost.post.summary}}</P>    
+                    </div>
+                    {% endif %}
+                    <div class="py-1 px-2 px-md-4">
+                        <p>{{ppost.post.content|linebreaks}}</p>    
+                    </div>
+                </div>
+                <div class="pt-4 pb-2 px-2">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button name="Approval" class="btn btn-primary px-4 py-2" type="submit" value="Submit">Submit</button>
+                    </form>
+                </div>
+            </div> 
+            <div class="col col-12 col-md-4 col-lg-3 mb-3 order-md-1 order-0">
+                <div>
+                    <div class="p-2 notes-heading">
+                        <h5 style="margin: 0;">Post Approval</h5>
+                    </div>
+                    <hr style="margin: 0px;" />
+                    <div class="px-2 py-4 notes-body">
+                        <ol>
+                            <li>Posts that are published require approval in order to be visible on site</li>
+                            <li>You have approver previledge, you can either approve or reject the post</li>
+                            <li>Posts rejected are reffered back to the Author, with a reason for rejection</li>
+                            <li>Approved posts becomes visible publicly</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock pagecontent %}
+{% block page_scripts %}
+
+{% endblock page_scripts %}

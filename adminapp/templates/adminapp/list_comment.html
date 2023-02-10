@@ -1,0 +1,65 @@
+{% extends 'adminapp/admin_comment_base.html' %}
+{% block windowtitle %}
+Pending Comments
+{% endblock windowtitle %}
+
+  {% block appview %}
+    {% if comment_list %}
+
+    <form method="POST">{% csrf_token %}
+      <div class="px-2 py-1 bg-gray-50">
+        {% if form.errors %}
+          {{form.errors}}
+        {% endif %}
+        <div class="flex flex-row gap-1 w-full lg:w-1/4">
+          <select id="{{form.approval.auto_id}}" name="{{form.approval.html_name}}" class="w-full px-4 py-2 text-xs bg-white rounded border border-gray-500">
+            {% for item in form.approval %}
+              {{item}}
+            {% endfor %}
+          </select>
+          <button class="px-2 py-1 text-sm rounded border border-lime-500 hover:bg-lime-500 hover:text-white" type="submit">Go</button>
+        </div>
+      </div>
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="py-3 px-6">
+
+            </th>
+            <th scope="col" class="py-3 px-6 w-1/3">commenter</th>
+            <th scope="col" class="py-3 px-6 w-2/3">comment</th>
+          </tr>
+        </thead>
+        <tbody class="">
+          {% for comment in comment_list %}
+          <tr class="bg-white border-b">
+            <td class="">
+              <input id="{{form.comment_approval.auto_id}}_{{comment.id}}" name="{{form.comment_approval.html_name}}" class="flex mx-auto" type="checkbox" value={{comment.id}}></td>
+            <th scope="row" class="w-1/3 flex flex-col py-4 px-6 space-y-1">
+              <div class="font-bold text-gray-900">{{comment.commenter.name}}</div>
+              <div class="font-medium text-xs">{{comment.commenter.email}}</div>
+              <div class="font-medium text-xs">{{comment.created_on|date:'d M, Y'}}</div>
+            </th>
+            <td class="w-2/3 py-4 px-6">
+              <div class="p-1 bg-gray-100 inline rounded">"{{comment.content}}"</div>
+              <div class="text-gray-500 mt-2 text-xs">Commented on <span class="text-blue-600 font-bold">{{comment.post.post.title}}</span></div>
+              <div class="mt-2 text-xs p-1 rounded-full inline font-bold
+              {% if comment.approval|stringformat:"s" == "APPROVED" %}bg-green-500 text-white
+              {% elif comment.approval|stringformat:"s" == "DISAPPROVED" %}bg-red-500 text-white
+              {% elif comment.approval|stringformat:"s" == "PENDING" %}bg-amber-500 text-white
+              {% endif %}">
+                {{comment.approval|stringformat:"s"}}</div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+    {% else %}
+    <div class="text-center my-12">
+      <h2 class="text-2xl">All done!</h2>
+      <p class="">No more comments here...</p>
+    </div>
+    {% endif %}
+
+  {% endblock appview %}

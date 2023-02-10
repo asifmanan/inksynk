@@ -1,0 +1,84 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block windowtitle %}
+    <title>Categories</title>
+{% endblock windowtitle %}
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col my-4">
+            <h1>Categories</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-12 col-md-8 col-xl-9">
+            {% if category_list%}
+            <div class="p-2 shadow-sm" style="background-color: #ffffff;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in category_list %}
+                            <tr>
+                                <td>
+                                    {{category}}
+                                </td>
+                                <td>{{category.description}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <div class="p-3 shadow-sm h-100" style="background-color: #ffffff;">
+                <p class="fs-2 text-muted fw-light">Whoops! No categories created yet...</p>
+                <p class="fs-2 text-muted fw-light">Use the form on the right to create first category for your site</p>
+            </div>
+            {% endif %}        
+        </div>
+        <div class="col col-12 col-md-4 col-xl-3">
+            {% if form %}
+            <div class="p-3 shadow-sm mt-4 mt-md-0" style="background-color: #ffffff;">
+                <form method="post" id="id_create_category_form">
+                    {% csrf_token %}
+                        <div class="my-4">
+                            <label class="form-label fw-semibold" for={{form.parent.id_for_label}}>Category Level</label>
+                            <select class="form-select" name={{form.parent.html_name}} id='{{form.parent.auto_id}}'>
+                                {% for choice in form.parent.field.choices  %}
+                                    <option value={{choice.0}}>{{choice.1}}</option>
+                                {% endfor %}    
+                            </select>
+                        </div>
+                        <div class="title-input mb-3">
+                            <label class="form-label fw-semibold" for={{form.title.id_for_label}}>Category Title</label>
+                            <input class="form-control" name={{form.title.html_name}} id={{form.title.auto_id}} maxlength={{form.title.field.max_length}} type="text" {% if form.title.field.required %}required{% endif %}>
+                        </div>
+                        <div class="my-4">
+                            <label class="form-label fw-semibold" for={{form.description.id_for_label}}>Brief Description (Optional)</label>
+                            <input class="form-control" name={{form.description.html_name}} id={{form.description.auto_id}} maxlength={{form.description.field.max_length}} type="text" {% if form.description.field.required %}required{% endif %}>
+                        </div>
+                        <div class="my-3">
+                            <button class="btn btn-primary p-3" type="submit">Add Category</button>
+                        </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+</div>
+{% endblock pagecontent %}
+
+{% block page_scripts %}
+    <script type="text/JavaScript" src={% static 'classapp\js\categoriesmanager.js' %}></script>
+{% endblock page_scripts %}

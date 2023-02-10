@@ -1,0 +1,26 @@
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block pagecontent %}
+
+  <div class="flex flex-col h-full rounded-md border border-stone-200">
+    <div class="grow-0">
+      <div class="p-2 bg-stone-200 rounded-t-md">
+        <h1 class="text-md uppercase font-bold text-stone-600">
+          {% block apptitle %}
+    
+          {% endblock apptitle %}
+          </h1>
+      </div>
+    </div>
+    {% include 'postapp/snippets/app_menu_clean.html' %}  
+
+    {% block appview %}
+
+    {% endblock appview %}
+
+  </div>
+  
+  
+
+  
+{% endblock pagecontent %}

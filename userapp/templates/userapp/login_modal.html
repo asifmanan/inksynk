@@ -1,0 +1,29 @@
+{% load static %}
+<div class="modal fade" id="id_login_modal" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="id_login_modal_title">SIGN IN AGAIN</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" id="id_modal_login_form" class="">
+        <div class="modal-body">
+            <input id="id_loginstatusquery_csrf" type="hidden" name="" value={{csrf_token}}>
+            <input type="hidden" id="id_modallogin_url" name="post_content_url" modallogin_url="{% url 'userapp:modallogin' %}">
+            <div class="mb-3">
+              <label for={{auth_form.username.auto_id}} class="col-form-label">Username</label>
+              <input class="form-control" type="text" name={{auth_form.username.html_name}} placeholder="Username" autofocus maxlength="150" required id={{auth_form.username.auto_id}}>
+            </div>
+            <div class="mb-3">
+              <label for={{auth_form.password.auto_id}} class="col-form-label">Password</label>
+              <input class="form-control" type="password" name={{auth_form.password.html_name}} placeholder="password" autofocus maxlength="150" required id={{auth_form.password.auto_id}}>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="id_modallogin_btn" type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

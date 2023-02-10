@@ -1,0 +1,54 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+Approved Posts
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+  Approved Posts
+  {% endblock apptitle %}
+
+  {% block appview %}
+  <div class="overflow-x-auto relative border border-stone-200">
+    {% if approvedpost_list %}
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="py-3 px-6 min-w-[200px]">Title</th>
+          <th scope="col" class="py-3 px-6">Publish Date</th>
+          <th scope="col" class="py-3 px-6">Category</th>
+          <th scope="col" class="py-3 px-6">Approver</th>
+          <th scope="col" class="py-3 px-6">Archived</th>
+        </tr>
+      </thead>
+      <tbody class="">
+        {% for apost in approvedpost_list %}
+        <tr class="bg-white border-b">
+          <th scope="row" class="py-4 px-6 font-medium text-gray-900">
+            {{apost.post.title}}</th>
+          <td class="py-4 px-6">{{apost.published_on|date:'d M, Y'}}</td>
+          <td class="py-4 px-6">{{apost.postcategory.category.title}}</td>
+          {% if apost.approver %}
+            <td class="py-4 px-6">
+              {{apost.approver}}</td>
+          {% else %}
+            <td class="py-4 px-6"> - </td>
+          {% endif %}
+          {% if apost.is_archived %}
+            <td class="py-4 px-6">Archived</td>
+          {% else %}
+            <td class="py-4 px-6">No</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="text-center my-12">
+      <h2 class="text-2xl">No Approved Posts</h2>
+      <p class="">Your approved posts will appear here once they are approved</p>
+    </div>
+    {% endif %}
+  </div>
+  {% endblock appview %}

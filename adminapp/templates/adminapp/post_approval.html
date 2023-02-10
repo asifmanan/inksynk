@@ -1,0 +1,171 @@
+{% extends 'adminapp/admin_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+Administration | Post Approval
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+  Administration
+  {% endblock apptitle %}
+  {% block appview %}
+  <div class="h-full">
+    <div class="flex flex-col px-2 pb-2 space-y-4 h-full">
+      
+      <div class="flex flex-col pt-4 xl:flex-row gap-6 xl:gap-2 h-full">
+        <div class="xl:w-3/4 flex flex-col grow items-center h-full">
+          <div class="space-y-6 md:max-w-[90%] md:min-w-[80%] xl:min-w-[70%] 2xl:max-w-[60%] p-4 border border-gray-300 shadow min-h-[99%]">
+            {% if ppost.post.postimage %}
+            <div>
+              <img src={{ppost.post.postimage.all.last.image.url}} />
+            </div>
+            {% endif %}
+            <div>
+              <h2 class="text-xl font-bold text-gray-800 font-serif">{{ppost.post.title}}</h2>
+            </div>
+            <div>
+              <p class="text-md text-gray-800 font-serif">
+                {{ppost.post.summary}}
+              </p>
+            </div>
+            <div>
+              <p class="text-md text-gray-800 font-serif">
+                {{ppost.post.content}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="space-y-4 xl:w-64 grow shrink-0 flex flex-col overflow-y-auto">
+
+          <div>
+
+            <div class="p-2 bg-blue-100">
+              Post Approval
+            </div>
+            <form method="POST">{% csrf_token %}
+              
+              <div class="p-4 space-y-4 bg-neutral-50 border border-neutral-200">
+                <ul class="flex flex-row gap-2 flex-wrap">
+                  {% for e in form.approval.field.choices %}
+                      
+                      <li>
+                        <input type="radio" id="{{form.approval.auto_id}}_{{forloop.counter0}}" value="{{e.0}}" name="{{form.approval.name}}" {% if form.approval.initial == e.0 %} checked='checked' {% endif %}
+                         class="hidden peer">
+                        <label for="{{form.approval.auto_id}}_{{forloop.counter0}}" class="inline-flex p-2 w-full text-gray-700 bg-inherit rounded-full cursor-pointer peer-checked:bg-sky-400 hover:text-sky-400  peer-checked:text-white hover:bg-sky-100">
+                            <div class="block w-full text-sm">{{e.1}}</div>
+                        </label>
+                        {{e.id_for_label}}
+                      </li>
+
+                  {% endfor %}
+                </ul>
+                
+                <div class="inline-flex">
+                  <input type="checkbox" id="{{form.feature.auto_id}}" name="{{form.feature.name}}" class="hidden peer" {% if form.feature.initial %} checked='checked' {% endif %}>
+                  <label for="{{form.feature.id_for_label}}" class="inline-flex p-2 w-full bg-inherit text-gray-700 fill-gray-700 rounded-full cursor-pointer hover:text-emerald-500 hover:fill-emerald-500 hover:bg-emerald-50 peer-checked:fill-white peer-checked:text-white peer-checked:bg-emerald-600">
+                    <div class="inline-flex gap-1 w-full text-sm">
+                      <svg class="bg-inherit fill-inherit" 
+                        width="15px" height="15px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        viewBox="0 0 329.942 329.942" xml:space="preserve">
+                      <path id="XMLID_16_" d="M329.208,126.666c-1.765-5.431-6.459-9.389-12.109-10.209l-95.822-13.922l-42.854-86.837
+                        c-2.527-5.12-7.742-8.362-13.451-8.362c-5.71,0-10.925,3.242-13.451,8.362l-42.851,86.836l-95.825,13.922
+                        c-5.65,0.821-10.345,4.779-12.109,10.209c-1.764,5.431-0.293,11.392,3.796,15.377l69.339,67.582L57.496,305.07
+                        c-0.965,5.628,1.348,11.315,5.967,14.671c2.613,1.899,5.708,2.865,8.818,2.865c2.387,0,4.784-0.569,6.979-1.723l85.711-45.059
+                        l85.71,45.059c2.208,1.161,4.626,1.714,7.021,1.723c8.275-0.012,14.979-6.723,14.979-15c0-1.152-0.13-2.275-0.376-3.352
+                        l-16.233-94.629l69.339-67.583C329.501,138.057,330.972,132.096,329.208,126.666z"/>
+                      </svg>
+                      {{form.feature.field.label}}</div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-neutral-100 border border-x-neutral-200 border-b-neutral-200 flex flex-row">
+                <button class="flex flex-row items-center gap-1 px-4 py-2" name="Approval" type="submit" value="submit">
+                  
+                  <svg width="15px" height="15px" class="fill-blue-700" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+                    <g>
+                      <g id="spin">
+                        <g>
+                          <path d="M25.883,6.086l-2.82,2.832C24.953,10.809,26,13.324,26,16c0,5.516-4.484,10-10,10v-2l-4,4l4,4v-2
+                            c7.719,0,14-6.281,14-14C30,12.254,28.539,8.734,25.883,6.086z"/>
+                          <path d="M20,4l-4-4v2C8.281,2,2,8.281,2,16c0,3.746,1.461,7.266,4.117,9.914l2.82-2.832
+                            C7.047,21.191,6,18.676,6,16c0-5.516,4.484-10,10-10v2L20,4z"/>
+                        </g>
+                      </g>
+                    </g>
+                    </svg>
+                  
+                <span class="text-sm font-bold text-blue-600 align-bottom">Apply</span></button>
+              </div>
+            </form>
+            
+          </div>
+
+          <div>
+            <div class="p-2 bg-neutral-200">
+              Post Info
+            </div>
+            <div class="p-4 space-y-4 bg-neutral-50 border border-neutral-200">
+              <div class="text-sm">
+                <span class="text-gray-500">Status </span><span class="text-gray-700 ml-2">
+                  {% if ppost.is_published %}
+                    Published
+                  {% else %}
+                    Draft
+                  {% endif %}
+                  </span>
+              </div>
+  
+              <div class="text-sm">
+                <span class="text-gray-500">Approval </span><span class="text-gray-700 ml-2">
+                  {% if ppost.approval == "PENDING" %}
+                    Pending
+                  {% elif ppost.approval == "APPROVED" %}
+                    Approved
+                  {% elif ppost.approval == "DISAPPROVED" %}
+                    Disapproved
+                  {% endif %}
+                  </span>
+              </div>
+  
+              <div class="text-sm">
+                <span class="text-gray-500">Category </span><span class="text-gray-700 ml-2">
+                  {{ppost.postcategory.category.title}}</span>
+              </div>
+              <div class="text-sm">
+                <span class="text-gray-500">Published on </span><span class="text-gray-700 ml-2">
+                  {{ppost.published_on|date:'d M Y'}}</span>
+              </div>
+              <div class="text-sm flex flex-row flex-wrap gap-2">
+                <span class="text-gray-500">Tags</span>
+                {% for tag in ppost.posttag.all  %}
+                  <span class="text-blue-700">{{tag}}</span>
+                  
+                {% endfor %}
+              </div>
+              
+            </div>
+  
+            <div class="bg-neutral-100 border border-x-neutral-200 border-b-neutral-200 flex flex-row">
+              <a href="{% url 'postapp:unpublishpost' ppost.pk %}" class="flex flex-row items-center gap-1 px-4 py-2 hover:bg-red-50">
+                <svg class="fill-red-600 w-[12px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  viewBox="0 0 461.363 461.363"
+                  xml:space="preserve">
+                  <g>
+                    <polygon points="95.088,461.363 366.276,461.363 389.653,105.984 71.71,105.984 		"/>
+                    <path d="M279.192,0h-97.02L71.71,23.557v50.83h317.943v-50.83L279.192,0z M301.683,47.871h-142V26.516h142V47.871z"/>
+                  </g>
+                </svg>
+              <span class="text-sm font-bold text-red-600 align-bottom">Unpublish</span></a>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  {% endblock appview %}

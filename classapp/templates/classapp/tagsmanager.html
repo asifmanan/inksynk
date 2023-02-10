@@ -1,0 +1,80 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block windowtitle %}
+    <title>Tags</title>
+{% endblock windowtitle %}
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col my-4">
+            <h1>Tags</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-12 col-md-8 col-xl-9">
+            {% if tag_list %}
+            <div class="p-2 shadow-sm" style="background-color: #ffffff;">  
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tag Title</th>
+                                <th>Tag Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tag in tag_list %}
+                            <tr>
+                                <td>{{tag}}</td>
+                                <td>{{tag.description}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+            {% else %}
+            <div class="p-3 shadow-sm h-100" style="background-color: #ffffff;">
+                <p class="fs-2 text-muted fw-light">Whoops! You dont have any tags yet...</p>
+                <p class="fs-2 text-muted fw-light">Use the form on the right to start creating</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col col-12 col-md-4 col-xl-3">
+            {% if form %}
+            <div class="p-3 shadow-sm mt-4 mt-md-0" style="background-color: #ffffff;">
+                <form method="POST">
+                {% csrf_token %}
+                    <div class="my-4">
+                        <label class="form-label fw-semibold" for={{form.parent.id_for_label}}>Parent Tag</label>
+                        <select class="form-select" id='{{form.parent.auto_id}}' name={{form.parent.html_name}}>
+                            {% for value,name in form.parent.field.choices  %}
+                                <option value={{value}}>{{name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="my-4">
+                        <label class="form-label fw-semibold" for={{form.title.id_for_label}}>Title</label>
+                        <input class="form-control" id='{{form.title.auto_id}}' name={{form.title.html_name}} maxlength={{form.title.field.max_length}} type="text" {% if form.title.field.required %}required{% endif %}/>
+                    </div>
+                    <div class="my-4">
+                        <label class="form-label fw-semibold" for={{form.description.id_for_label}}>Description</label>
+                        <input class="form-control" id='{{form.description.auto_id}}' name={{form.description.html_name}} maxlength={{form.description.field.max_length}} type="text" {% if form.description.field.required %}required{% endif %}/>
+                    </div>
+                    <div class="my-3">
+                        <button class="btn btn-primary p-3" type="submit">Add Tag</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock pagecontent %}
+{% block page_scripts %}
+    <script type="text/JavaScript" src={% static 'classapp\js\tagsmanager.js' %}></script>
+{% endblock page_scripts %}

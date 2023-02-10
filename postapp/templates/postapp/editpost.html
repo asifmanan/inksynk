@@ -1,0 +1,140 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+New Draft
+{% endblock windowtitle %}
+  
+  {% block apptitle %}
+  New Draft
+  {% endblock apptitle %}
+
+  {% block appview %}
+    <div class="h-full">
+      <form method="POST" class="h-full">
+        {% csrf_token %}
+        
+        <div class="flex flex-col px-2 pb-2 space-y-4 h-full">
+          <div class="flex flex-row border-b -mx-2">
+            <button id="id_savepost" name="save" type="submit" class="flex flex-row items-center gap-1 px-4 py-2 hover:bg-blue-50">
+              <svg class="fill-stone-600 w-[10px]" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 49 49" xml:space="preserve">
+                <g>
+                  <rect x="27.5" y="5" width="6" height="10"/>
+                  <path d="M39.914,0H0.5v49h48V8.586L39.914,0z M10.5,2h26v16h-26V2z M39.5,47h-31V26h31V47z"/>
+                  <path d="M13.5,32h7c0.553,0,1-0.447,1-1s-0.447-1-1-1h-7c-0.553,0-1,0.447-1,1S12.947,32,13.5,32z"/>
+                  <path d="M13.5,36h10c0.553,0,1-0.447,1-1s-0.447-1-1-1h-10c-0.553,0-1,0.447-1,1S12.947,36,13.5,36z"/>
+                  <path d="M26.5,36c0.27,0,0.52-0.11,0.71-0.29c0.18-0.19,0.29-0.45,0.29-0.71s-0.11-0.521-0.29-0.71c-0.37-0.37-1.04-0.37-1.41,0
+                    c-0.19,0.189-0.3,0.439-0.3,0.71c0,0.27,0.109,0.52,0.29,0.71C25.979,35.89,26.229,36,26.5,36z"/>
+                </g>
+              </svg>
+              <span class="text-sm font-bold text-stone-600 align-bottom">Save</span>
+            </button>
+            <button name="Publish" type="submit" class="flex flex-row items-center gap-1 px-4 py-2 hover:bg-blue-50">
+              <span><svg class="fill-stone-600 w-[10px]" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  viewBox="0 0 374.116 374.116" xml:space="preserve">
+                <g>
+                  <path d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
+                    v106.609c0,16.568,13.432,30,30,30h314c16.568,0,30-13.432,30-30V237.506C374.058,220.938,360.626,207.506,344.058,207.506z"/>
+                  <path d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
+                    c5.857,5.858,13.535,8.787,21.213,8.787c7.678,0,15.355-2.929,21.213-8.787c11.716-11.716,11.716-30.71,0-42.426L208.271,8.788
+                    c-11.715-11.717-30.711-11.717-42.426,0L81.144,93.489c-11.716,11.716-11.716,30.71,0,42.426
+                    C92.859,147.631,111.855,147.631,123.57,135.915z"/>
+                </g>
+              </svg>
+              </span>
+              <span class="text-sm font-bold text-stone-600 align-bottom">Publish</span></button>
+            <a href="{% url 'postapp:deletepost' post.pk %}" class="flex flex-row ml-auto items-center gap-1 px-4 py-2 hover:bg-red-50">
+              <svg class="fill-red-600 w-[12px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 461.363 461.363"
+                xml:space="preserve">
+                <g>
+                  <polygon points="95.088,461.363 366.276,461.363 389.653,105.984 71.71,105.984 		"/>
+                  <path d="M279.192,0h-97.02L71.71,23.557v50.83h317.943v-50.83L279.192,0z M301.683,47.871h-142V26.516h142V47.871z"/>
+                </g>
+              </svg>
+              <span class="text-sm font-bold text-red-600 align-bottom">Delete</span></a>
+          </div>
+          <div class="flex flex-col xl:flex-row gap-6 xl:gap-2 h-full">
+            <div class="xl:w-3/4 flex flex-col grow space-y-6">
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-700" for="{{post_form.title.id_for_label}}">title</label>
+                <input class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif font-bold text-md" id="{{form.title.auto_id}}" name={{form.title.html_name}} maxlength={{form.title.field.max_length}} {% if form.title.field.required %}required{% endif %} value="{{form.title.value}}" type="text"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-700" for="{{post_form.summary.id_for_label}}">Summary</label>
+                <textarea id="{{form.summary.auto_id}}" name={{form.summary.html_name}} {% if form.summary.field.required %}required{% endif %} rows="5" class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif" type="text">{{form.summary.value}}</textarea>
+              </div>
+              <div>
+                <label for={{form.content.id_for_label}} class="block text-xs font-bold uppercase text-gray-700">Content</label>
+                <textarea id="{{form.content.auto_id}}" name={{form.content.html_name}} {% if form.content.field.required %}required{% endif %} rows="10" class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif" type="text">{{form.content.value}}</textarea>
+              </div>
+            </div>
+            <div class="xl:w-64 grow shrink-0">
+              <div class="flex flex-col h-full p-4 bg-neutral-50 border rounded-md border-neutral-200 space-y-6">
+                <div class="">
+                  <label for={{postcategoryform.category.id_for_label}} class="block text-xs font-bold uppercase text-gray-700">Category</label>
+                    <select class="bg-white p-1 block w-full border border-neutral-200 font-ibmplexserif text-sm" name={{postcategoryform.category.html_name}} id='{{postcategoryform.category.auto_id}}' {% if postcategoryform.category.field.required %}required{% endif %}>
+                      {% for cat_val,cat_name in postcategoryform.category.field.choices  %}
+                        <option 
+                          {% if postcategoryform.category.value == cat_val %} 
+                              selected="selected" 
+                          {% endif %} 
+                              value={{cat_val}}>{{cat_name}}
+                        </option>
+                      {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-700" for={{tagform.tags.id_for_label}}>Tags</label>
+                  <textarea id="{{tagform.tags.auto_id}}" name="{{tagform.tags.html_name}}" rows="6" spellcheck="false" class="resize-none p-1 w-full block border rounded outline-none border-neutral-200 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif" type="text"></textarea>
+                </div>
+                {% if post.postimage %}
+                <div class="w-full">
+                  <img src={{ post.postimage.all.last.image.url }}>
+                </div>
+                {% endif %}
+                <div class="flex flex-row">
+                  <button id="id_publishpost" name="publishpost" class="py-2 px-4 text-blue-600 border border-blue-400 hover:bg-blue-50">Publish</button>
+                  <a class="text-blue-600 underline ml-auto" href="{% url 'postapp:addpostimage' object.id %}">Add Image</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  {% endblock appview %}
+  {% block pagescripts %}
+  <script>
+    $(document).ready(function(){
+      $("body").on('click','#id_publishpost',function(event){
+        const attr_category_required = $("#id_category").attr("required");
+        const attr_tags_required = $("#id_tags").attr("required");
+        if (typeof attr_category_required == 'undefined' || attr_category_required == false){
+          $("#id_category").attr("required",true);
+        }
+        if (typeof attr_tags_required == 'undefined' || attr_tags_required == false){
+          $("#id_tags").attr("required",true);
+        }
+        
+      });
+      $("body").on('click','#id_savepost',function(event){
+        console.log("Save clicked");
+        const attr_category_required = $("#id_category").attr("required");
+        const attr_tags_required = $("#id_tags").attr("required");
+        if (typeof attr_category_required !== 'undefined' || attr_category_required !== false){
+          $("#id_category").removeAttr("required");
+        }
+        if (typeof attr_tags_required !== 'undefined' || attr_tags_required !== false){
+          $("#id_tags").removeAttr("required");
+        }
+      });
+    })
+  </script>
+  {% endblock pagescripts %}
+	{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="sidebar_menu.js"></script> {% endcomment %}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% extends 'siteapp/base.html' %}
+
+
+{% block windowtitle %}
+  <title>InkSynk | {{publishedpost.post.title}}</title>
+{% endblock windowtitle %}
+
+{% block pagecontent %}
+<div class="flex flex-col space-y-10 max-w-[720px] mx-auto">
+  <!-- Article -->
+  <div class="flex flex-col">
+    {% if publishedpost.post.postimage %}
+    <div class="mx-auto">
+      <img class="rounded-lg max-h-[480px]" src="{{publishedpost.post.postimage.all.last.image.url}}" alt="">
+    </div>
+    {% endif %}
+    <div class="space-y-4 py-4 text-gray-700 dark:text-gray-300">
+      <h6 class="text-sm text-indigo-700 font-qsand font-bold">{{publishedpost.postcategory}}</h6>
+      <h2 class="text-xl">
+        {{publishedpost.post.title}}
+      </h2>
+      <div>
+        <p class="inline text-xs font-qsand pr-2">{{publishedpost.post.author}}</p>
+        <p class="inline text-xs font-qsand px-2">•</p>
+        <p class="inline text-xs font-qsand pl-2">{{publishedpost.published_on|date:'d M, Y'}}</p>
+      </div>
+    </div>
+    <div class="leading-loose text-sm text-gray-700 dark:text-gray-300 space-y-6">
+      {{publishedpost.post.content}}
+    </div>
+  </div>
+  
+    <!-- Comments Section -->
+  <div class="space-y-10">
+    
+    
+      <!-- Comment form -->
+    <form method=POST>
+      {% csrf_token %}
+      <div class="flex flex-col space-y-6">
+        <h3 class="text-sm font-qsand text-left">LEAVE A COMMENT</h3>
+        <textarea class="text-sm p-2 dark:bg-gray-900 w-full focus:outline-none border focus:border-gray-300 border-gray-600" 
+          name="{{form.comment_content.html_name}}" id="{{form.comment_content.auto_id}}" type="text" required maxlength=1024 cols="30" rows="5"></textarea>
+        <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-4">
+          <input class="block w-full dark:bg-gray-900 focus:outline-none 
+          border-b border-b-gray-600 placeholder:font-qsand focus:border-gray-300
+          md:w-2/5" 
+          name="{{form.commenter_name.html_name}}"
+          id="{{form.commenter_name.auto_id}}"
+          type="text"
+          maxlength="{{form.commenter_name.field.max_length}}"
+          required=""
+          placeholder="{{form.commenter_name.label}}"/>
+          <input class="block w-full dark:bg-gray-900 focus:outline-none 
+            border-b border-b-gray-600 placeholder:font-qsand focus:border-gray-300
+            md:w-2/5" 
+            name="{{form.commenter_email.html_name}}"
+            id="{{form.commenter_email.auto_id}}"
+            type="email"
+            maxlength="{{form.commenter_email.field.max_length}}"
+            required=""
+            placeholder="{{form.commenter_email.label}}"/>
+            <button type="submit" class="font-qsand border border-gray-600 py-2 md:w-1/5
+            hover:bg-rose-800 hover:border-rose-800 hover:-translate-y-0.5 duration-150">Post</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="font-qsand text-gray-700 dark:text-gray-300 mb-4">
+      <h2 class="text-lg text-center">COMMENTS</h2>
+    </div>
+
+      <!-- Comments -->
+    <div class="space-y-8 text-gray-800 dark:text-gray-300">
+      {% if comments %}
+        {% for comment in comments %}
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold">{{comment.commenter.name}} wrote:</h4>
+          <p class="text-xs">{{comment.content}}</p>
+          <p class="text-xs text-gray-700">Posted on: {{comment.created_on|date:'d M, Y'}}</p>
+        </div>
+        <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  
+  
+  
+  <!-- <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700"> -->
+  {% if related_posts %}
+  
+  <div class="font-qsand text-center text-gray-700 dark:text-gray-300">
+    <h2 class="text-lg">RELATED POSTS</h2>
+  </div>
+    <!-- Articles Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for ppost in related_posts %}
+      <!-- Article 1 -->
+    <div class="md:w-full">
+      <div>
+        <img class="rounded-lg" src="{{ppost.post.postimage.all.last.image.url}}" alt="">
+      </div>
+      <div class="space-y-4 py-4">
+        <h6 class="text-sm text-indigo-700 font-qsand font-bold">{{ppost.postcategory}}</h6>
+        <h2 class="text-xl text-gray-700 dark:text-gray-300">
+          <a href="{% url 'siteapp:postview' ppost.slug %}">{{ppost.post.title}}</a>
+        </h2>
+        <div>
+          <p class="inline text-xs text-gray-700 dark:text-gray-300 font-qsand pr-2">{{ppost.post.author}}</p>
+          <p class="inline text-xs text-gray-700 dark:text-gray-300 font-qsand px-2">•</p>
+          <p class="inline text-xs text-gray-700 dark:text-gray-300 font-qsand pl-2">{{ppost.published_on|date:'d M Y'}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock pagecontent %}

@@ -1,0 +1,6 @@
+python==3
+django==4.1.5
+psycopg2
+django-autoslug
+django[argon2]
+pillow

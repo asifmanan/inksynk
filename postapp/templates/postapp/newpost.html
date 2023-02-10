@@ -1,0 +1,59 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block windowtitle %}
+    <title>New Post | Dashboard</title>
+{% endblock windowtitle %}
+
+{% block pagecontent %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+          <div class="my-4">
+            <h2 id="id_page_heading">New Post</h2>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <form method="post" id="id_post_form" class="needs-validation" novalidate>
+              {% csrf_token %}
+              <div class ="form-canvas p-4 shadow-sm">
+                <div class="my-2">
+                  <input type="hidden" id="id_post_content_url" name="post_content_url" post_save_url="{% url 'postapp:newpost' %}">
+                  <input type="hidden" id="id_loginstatusquery" name="loginstatusquery" loginstatusquery_url="{% url 'useraccounts:loginstatusquery' %}">
+                  <div class="title-input">
+                    <label class="fw-semibold" for={{post_form.title.id_for_label}}>Title</label>
+                    <input class="form-control post_required" name={{post_form.title.html_name}} id={{post_form.title.auto_id}} maxlength={{post_form.title.field.max_length}} type="text" {% if post_form.title.field.required %}required{% endif %}>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Opps! You forgot the title</div>
+                  </div>
+                  <div class="summary-input mt-4">
+                    <label class="fw-semibold" for={{post_form.summary.id_for_label}}>Summary</label>
+                    <textarea class="form-control" name={{post_form.summary.html_name}} id='{{post_form.summary.auto_id}}' {% if post_form.summary.field.required %} required {% endif %}></textarea>
+                    <div class="valid-feedback">This can be empty, your choice</div>
+                  </div>
+                  <div class="content-input mt-4">
+                    <label class="fw-semibold" for={{post_form.content.id_for_label}}>Content</label>
+                    <textarea class="form-control post_required" name={{post_form.content.html_name}} id={{post_form.content.auto_id}} rows="8" {% if post_form.content.field.required %}required{% endif %}></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">You need to write something in content</div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid gap-2 d-md-block mt-4">
+                <button name="Save" class="btn py-3 px-4 btn-primary me-2" type="submit">Save Draft</button>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="" id="id_modal_placeholder"></div>
+{% endblock pagecontent %}
+
+{% block page_scripts %}
+  <script type="text/javascript" src="{% static 'postapp\js\post_save_0.js' %}"></script>
+  <script type="text/javascript" src="{% static 'postapp\js\bs_form_validator.js' %}"></script>
+  <script type="text/javascript" src="{% static 'useraccounts\js\loginstatusquery.js' %}"></script>
+  <script type="text/javascript" src="{% static 'useraccounts\js\login_modal.js' %}"></script>
+{% endblock page_scripts %}

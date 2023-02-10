@@ -1,0 +1,99 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+Published Post
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+  Published Post
+  {% endblock apptitle %}
+  {% block appview %}
+  <div class="h-full">
+    <div class="flex flex-col px-2 pb-2 space-y-4 h-full">
+      
+      <div class="flex flex-col pt-4 xl:flex-row gap-6 xl:gap-2 h-full">
+        <div class="xl:w-3/4 flex flex-col grow items-center h-full">
+          <div class="space-y-6 md:max-w-[90%] md:min-w-[80%] xl:min-w-[70%] 2xl:max-w-[60%] p-4 border border-gray-300 shadow min-h-[99%]">
+            {% if publishedpost.post.postimage %}
+            <div>
+              <img src= {{publishedpost.post.postimage.all.last.image.url}} />
+            </div>
+            {% endif %}
+            <div>
+              <h2 class="text-xl font-bold text-gray-800 font-serif">{{publishedpost.post.title}}</h2>
+            </div>
+            <div>
+              <p class="text-md text-gray-800 font-serif">
+                {{publishedpost.post.summary}}
+              </p>
+            </div>
+            <div>
+              <p class="text-md text-gray-800 font-serif">
+                {{publishedpost.post.content}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="xl:w-64 grow shrink-0 flex flex-col overflow-y-auto">
+          <div class="p-4 space-y-4 bg-neutral-50 border border-neutral-200">
+                  
+            <div class="text-sm">
+              <span class="text-gray-500">Status </span><span class="text-gray-700 ml-2">
+                {% if publishedpost.is_published %}
+                  Published
+                {% else %}
+                  Draft
+                {% endif %}
+                </span>
+            </div>
+
+            <div class="text-sm">
+              <span class="text-gray-500">Approval </span><span class="text-gray-700 ml-2">
+                {% if publishedpost.approval == "PENDING" %}
+                  Pending
+                {% elif publishedpost.approval == "APPROVED" %}
+                  Approved
+                {% elif publishedpost.approval == "DISAPPROVED" %}
+                  Disapproved
+                {% endif %}
+                </span>
+            </div>
+
+            <div class="text-sm">
+              <span class="text-gray-500">Category </span><span class="text-gray-700 ml-2">
+                {{publishedpost.postcategory.category.title}}</span>
+            </div>
+            <div class="text-sm">
+              <span class="text-gray-500">Published on </span><span class="text-gray-700 ml-2">
+                {{publishedpost.published_on|date:'d M Y'}}</span>
+            </div>
+            <div class="text-sm flex flex-row flex-wrap gap-2">
+              <span class="text-gray-500">Tags</span>
+              {% for tag in publishedpost.posttag.all  %}
+                <span class="text-blue-700">{{tag}}</span>
+                
+              {% endfor %}
+            </div>
+
+          </div>
+          <div class="bg-neutral-100 border border-x-neutral-200 border-b-neutral-200 flex flex-row">
+            <a href="{% url 'postapp:unpublishpost' publishedpost.pk %}" class="flex flex-row items-center gap-1 px-4 py-2 decoration-red-600 hover:underline">
+              <svg class="fill-red-600 w-[12px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 461.363 461.363"
+                xml:space="preserve">
+                <g>
+                  <polygon points="95.088,461.363 366.276,461.363 389.653,105.984 71.71,105.984 		"/>
+                  <path d="M279.192,0h-97.02L71.71,23.557v50.83h317.943v-50.83L279.192,0z M301.683,47.871h-142V26.516h142V47.871z"/>
+                </g>
+              </svg>
+            <span class="text-sm font-bold text-red-600 align-bottom">Unpublish</span></a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  {% endblock appview %}

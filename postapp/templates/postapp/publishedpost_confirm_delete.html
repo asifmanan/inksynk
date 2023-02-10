@@ -1,0 +1,34 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+  Unpublish Post
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+    Unpublish Post
+  {% endblock apptitle %}
+
+  {% block appview %}
+  <div class="border border-stone-200 h-full">
+    <form method="POST">{% csrf_token %}
+      <div class="flex flex-col text-center gap-4 px-4 py-10 h-full">
+        <p class="font-montserrat text-xl">
+          Are you sure you want to Unpublish this post?
+        </p>
+        <p class="font-ibmplexserif text-lg">
+          {% if ppost.post.title %}
+            {{ppost.post.title}}
+          {% else %}
+            No Title
+          {% endif %}
+        </p>
+        {{form}}
+        <div class="flex flex-row gap-2 justify-center">
+          <button class="rounded text-white px-6 py-2 bg-red-700 hover:bg-red-600" type="submit" value="Confirm">Confirm</button>
+          <a href="{% url 'postapp:publishedpost' ppost.id %}" class="rounded text-white px-6 py-3 bg-gray-600 hover:bg-gray-500">No, Take me back</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  {% endblock appview %}

@@ -1,0 +1,97 @@
+{% extends 'siteapp/base.html' %}
+{% load static %}
+{% block windowtitle %}
+    <title>InkSynk | Home</title>
+{% endblock windowtitle %}
+
+{% block pagecontent %}
+<div class="flex flex-col md:space-y-10">
+  {% if not undercontruction %}
+
+      <!-- Featured Articles -->
+    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 justify-center">
+
+        <!-- Featured Articles -->
+      {% for featured in featuredPosts %}
+      <div class="md:w-full">
+        {% if featured.ppost.post.postimage %}
+        <div class="max-h-[267px]">
+          <img class="h-[16.5rem] w-full rounded-lg hover:scale-105 duration-150" src="{{featured.ppost.post.postimage.all.last.image.url}}" alt="">
+        </div>
+        {% endif %}
+        <div class="space-y-4 py-4 text-gray-700 dark:text-gray-300">
+          <h6 class="text-sm text-indigo-700 font-qsand font-bold">{{featured.ppost.postcategory}}</h6>
+          <h2 class="text-xl">
+            <a href={% url 'siteapp:postview' featured.ppost.slug %} class="hover:underline">
+              {{featured.ppost.post.title}}
+            </a>
+          </h2>
+          
+          <div>
+            <p class="inline text-xs font-qsand pr-2">{{featured.ppost.post.author}}</p>
+            <p class="inline text-xs font-qsand px-2">•</p>
+            <p class="inline text-xs font-qsand pl-2">{{featured.ppost.published_on|date:"M d, Y"}}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    
+    </div>
+
+      <!-- Articles Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+        <!-- Article 1 -->
+      {% for ppost in PublishedPosts %}
+      <div class="md:w-full">
+        {% if ppost.post.postimage %}
+        <div>
+          <img class="rounded-lg hover:scale-105 duration-150" src="{{ppost.post.postimage.all.last.image.url}}" alt="">
+        </div>
+        {% endif %}
+        <div class="space-y-4 py-4 text-gray-700 dark:text-gray-300">
+          <h6 class="text-sm text-indigo-700 font-qsand font-bold">{{ppost.postcategory}}</h6>
+          <h2 class="text-xl">
+            <a href={% url 'siteapp:postview' ppost.slug %}>
+              {{ppost.post.title}}
+            </a>
+          </h2>
+          <div class="text-gray-700 dark:text-gray-300">
+            <p class="inline text-xs font-qsand pr-2">{{ppost.post.author}}</p>
+            <p class="inline text-xs font-qsand px-2">•</p>
+            <p class="inline text-xs font-qsand pl-2">{{ppost.published_on|date:"M d, Y"}}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  {% else %}
+    <div class="mx-auto">
+      <svg class="fill-yellow-500" height="400px" width="400px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+        viewBox="0 0 32.811 32.811" xml:space="preserve">
+      <g>
+        <path d="M0,1.356v16.743h5.249v7.154v3.617v2.586h3.61v-2.586h15.423v2.586h3.606V18.098h4.923V1.356H0z M31.136,2.281
+          l-7.764,14.658h-4.783l7.762-14.658C26.351,2.281,31.136,2.281,31.136,2.281z M23.016,2.245l-7.766,14.66h-4.785l7.767-14.66
+          C18.232,2.245,23.016,2.245,23.016,2.245z M1.31,2.429l5.617-0.017L1.281,12.99L1.31,2.429z M7.468,17.06H2.684l7.763-14.658h4.785
+          L7.468,17.06z M24.282,25.252H8.859v-7.154h15.423C24.282,18.098,24.282,25.252,24.282,25.252z M32.149,16.811l-5.616-0.006
+          l5.646-10.576L32.149,16.811z"/>
+        <path d="M0,1.356v16.743h5.249v7.154v3.617v2.586h3.61v-2.586h15.423v2.586h3.606V18.098h4.923V1.356H0z M31.136,2.281
+          l-7.764,14.658h-4.783l7.762-14.658C26.351,2.281,31.136,2.281,31.136,2.281z M23.016,2.245l-7.766,14.66h-4.785l7.767-14.66
+          C18.232,2.245,23.016,2.245,23.016,2.245z M1.31,2.429l5.617-0.017L1.281,12.99L1.31,2.429z M7.468,17.06H2.684l7.763-14.658h4.785
+          L7.468,17.06z M24.282,25.252H8.859v-7.154h15.423C24.282,18.098,24.282,25.252,24.282,25.252z M32.149,16.811l-5.616-0.006
+          l5.646-10.576L32.149,16.811z"/>
+      </g>
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-center text-4xl">Site Undercontruction</h1>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock pagecontent %}
+
+{% block pagescripts %}
+  
+{% endblock pagescripts %}

@@ -1,0 +1,44 @@
+{% extends 'adminapp/admin_post_base.html' %}
+{% block windowtitle %}
+Pending Approval
+{% endblock windowtitle %}
+
+  {% block appview %}
+  {% if pendingpost_list %}
+  <table class="w-full text-sm text-left text-gray-500">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+      <tr>
+        <th scope="col" class="py-3 px-6 min-w-[200px]">Title</th>
+        <th scope="col" class="py-3 px-6">Author</th>
+        <th scope="col" class="py-3 px-6">Publish Date</th>
+        <th scope="col" class="py-3 px-6">Category</th>
+        <th scope="col" class="py-3 px-6">Quick Action</th>
+      </tr>
+    </thead>
+    <tbody class="">
+      {% for ppost in pendingpost_list %}
+      <tr class="bg-white border-b">
+        <th scope="row" class="py-4 px-6 font-medium text-gray-900">
+          {{ppost.post.title}}</th>
+        <td class="py-4 px-6">{{ppost.post.author}}</td>
+        <td class="py-4 px-6">{{ppost.published_on|date:'d M, Y'}}</td>
+        <td class="py-4 px-6">{{ppost.postcategory.category.title}}</td>
+        <td class="py-4 px-6">
+          <a href="{% url 'adminapp:postapproval' ppost.pk %}" class="text-blue-700 hover:underline">View</a>
+          {% if ppost.approval != "APPROVED" %}
+            <a href="#" class="text-green-700 hover:underline">Approve</a> | 
+            <a href="#" class="text-red-700 hover:underline">Disapprove</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="text-center my-12">
+    <h2 class="text-2xl">All done!</h2>
+    <p class="">You currently do not have any pending approvals</p>
+  </div>
+  {% endif %}
+  
+  {% endblock appview %}

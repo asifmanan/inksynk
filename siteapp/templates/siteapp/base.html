@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'siteapp/css/style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">   
+    
+    {% block headblock %}
+
+    {% endblock headblock %}
+
+    {% block windowtitle %}
+    
+    {% endblock windowtitle %}
+</head>
+
+<body>
+    <div class="min-h-screen bg-beige-50 dark:bg-gray-900 dark:text-white">
+        <div class="max-w-[980px] lg:mx-auto md:mx-8 mx-5">
+            {% block navbar %}
+                {% include 'siteapp/navbar.html' %}    
+            {% endblock navbar %}      
+
+            {% block pagecontent %}
+
+            {% endblock pagecontent %}
+        </div>
+            {% block pagefooter %}
+                {% include 'siteapp/footer.html' %}
+            {% endblock pagefooter %}
+        
+    </div>
+    <script type="text/javascript" src="{% static 'siteapp\js\navbar.js' %}"></script>
+{% block pagescripts %}
+
+{% endblock pagescripts %}
+</body>
+</html>

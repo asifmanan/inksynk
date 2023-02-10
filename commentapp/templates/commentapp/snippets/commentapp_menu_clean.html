@@ -1,0 +1,6 @@
+<div class="flex flex-row flex-wrap gap-2 p-2 bg-gray-50 border-x border-x-stone-200 text-xs">
+  <a class="rounded-full px-4 py-2 hover:bg-lime-500 text-teal-700 hover:text-white font-bold" href="{% url 'commentapp:usercommentlist' 'all' %}">All</a>
+  <a class="rounded-full px-4 py-2 hover:bg-lime-500 text-teal-700 hover:text-white font-bold" href="{% url 'commentapp:usercommentlist' 'pending' %}">Pending</a>
+  <a class="rounded-full px-4 py-2 hover:bg-lime-500 text-teal-700 hover:text-white font-bold" href="{% url 'commentapp:usercommentlist' 'approved' %}">Approved</a>
+  <a class="rounded-full px-4 py-2 hover:bg-lime-500 text-teal-700 hover:text-white font-bold" href="{% url 'commentapp:usercommentlist' 'disapproved' %}">Disapproved</a>
+</div>

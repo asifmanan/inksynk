@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href={% static "cmsapp/css/style.css"%} />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <title>Inksynk - Login</title>
+</head>
+<body>
+      <!-- global container -->
+  <div class="flex items-center justify-center min-h-screen bg-rose-50">
+    {% if form.non_field_errors %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <strong class="font-bold">Something's wrong!</strong>  
+      
+        <span class="block sm:inline">
+          {% for error in form.non_field_errors %}
+            {{error}}
+          {% endfor %}
+        </span>
+        
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+      </span>
+    </div>
+    {% endif %}
+    
+      <!-- card container -->
+    <div class="w-full shadow-lg md:w-auto md:mx-5 mx-1 md:p-10 p-4 flex flex-col my-4 space-y-8 bg-white rounded-xl">
+    
+        <!-- title -->
+      <div class="space-y-2">
+          <h2 class="text-4xl text-center font-bold">Log In</h2>
+          <p class="text-center text-sm font-light text-gray-700">Log in to your account</p>
+      </div>
+      <!-- inputs -->
+      <form class="text-center" method="post">{% csrf_token %}
+        <div class="space-y-4">
+            <input type="text" class="text-gray-600 w-full border border-gray-300 p-4
+                placeholder:font-light" placeholder="Username" name={{form.username.html_name}} id="{{form.username.auto_id}}" required/>
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                  <p> {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+            <input type="password" class="w-full border border-gray-300 p-4
+                placeholder:font-light" placeholder="Password" name={{form.password.html_name}} id="{{form.password.auto_id}}" required/>
+            {% if form.password.errors %}
+              {% for error in form.password.errors %}
+                <p> {{ error }} </p>
+              {% endfor %}
+            {% endif %}
+        </div>
+        <!-- buttons -->
+        <div class="mt-8">
+            <button class="border w-full p-4 font-bold bg-teal-600 text-white 
+                hover:bg-teal-500 hover:shadow-lg hover:-translate-y-0.5 
+                duration-150" type="submit">Log in</button>
+        </div>
+      </form>
+      <!-- footer -->
+      <div>
+          <p class="text-sm font-light text-gray-600">Don't have an account? 
+              <a href="" class="text-teal-600 font-bold hover:underline hover:underline-offset-2 decoration-1">Sign up</a> 
+          to become a member</p>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

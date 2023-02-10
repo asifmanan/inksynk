@@ -1,0 +1,37 @@
+{% extends 'postapp/post_base.html' %}
+{% load static %}
+
+{% block windowtitle %}
+  Upload Image
+{% endblock windowtitle %}
+
+  {% block apptitle %}
+    Upload Image
+  {% endblock apptitle %}
+
+  {% block appview %}
+    <div class="h-full">
+      <form method="POST" enctype="multipart/form-data" class="h-full">{% csrf_token %}
+        <div class="flex flex-col p-2 space-y-4 w-1/4">
+          <div class="w-full">
+            <label id="{{form.image.id_for_label}}">Image</label>
+            <input class="mt-1 block w-full text-sm text-slate-500
+            border rounded-md border-gray-400
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-l-sm file:border-0
+            file:text-sm file:font-semibold
+            file:bg-gray-700 file:text-white
+            hover:file:bg-gray-600"
+             id="{{form.image.auto_id}}" name={{form.image.html_name}} type="file" accept="image/*" />
+          </div>
+          <div class="w-full">
+            <label id="{{form.image_caption.id_for_label}}">Caption</label>
+            <input class="p-1 w-full block border rounded outline-none border-gray-400 focus:outline-gray-600 outline-1 outline-offset-0 font-ibmplexserif text-md" id="{{form.image_caption.auto_id}}" name={{form.image_caption.html_name}} type="text" max_length="{{form.image_caption.field.max_length}}" />
+          </div>
+          <div>
+            <button class="px-4 py-2 rounded border bg-teal-700 font-bold text-white uppercase text-sm hover:bg-teal-600">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endblock appview %}
