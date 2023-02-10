@@ -32,6 +32,8 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get('DEBUG_VALUE'))
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # ALLOWED_HOSTS = list(str(os.environ.get('HOST_NAMES').split(' ')))
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
@@ -144,7 +146,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR,]
+STATIC_ROOT = BASE_DIR/'static'
+# STATICFILES_DIRS = [STATIC_DIR,]
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
